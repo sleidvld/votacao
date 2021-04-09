@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ nome_pagina }}</h1>
+    </div>
+
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ mensagem }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow mb-4 ">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
+            <h6 class="m-0 font-weight-bold text-primary ">Votações</h6>
+        </div>
+
+        <div class="card-body ">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <th>Nome</th>
+                        <th>Data de Inicio</th>
+                        <th>Data termino</th>
+                        <th>Opção</th>
+                    </thead>
+
+                    <tbody>
+                        {% for objVotacao in todas_votacoes %}
+                            <tr>
+                                <td>{{ objVotacao.nome }}</td>
+                                <td>{{ objVotacao.data_inicio }}</td>
+                                <td>{{ objVotacao.data_termino }}</td>
+                                <td>
+                                    {% if objVotacao.data_inicio <= hoje and objVotacao.data_termino >= hoje %}
+                                        <a href="{% url 'validacao' objVotacao.id %}">
+                                            Votar
+                                        </a>
+                                    {% else %}
+                                        <p>Votação encerrada</p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block conteudo %}
+
+
+
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ nome_pagina }}</h1>
+    </div>
+
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-warning" role="alert">
+                {{ mensagem }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h4 class="mb-3 text-primary">
+                Verificação
+            </h4>
+            <small>Entre com o cpf para ver se está cadastrado e começar a votação</small>
+                <div class="">                    
+                    <div class="row">
+                        <form method="POST" class="col s6">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <label for="">Cpf: </label>
+                                    <input class="" id="cpf" name="cpf" type="text" maxlength="11">
+                                </div>
+                            </div>
+                            <button class="waves-effect waves-light btn bg-gradient-primary" type="submit">
+                                <span class="text-white">Votar</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock conteudo %}
