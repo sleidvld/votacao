@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block conteudo %}
+
+
+
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ nome_pagina }}</h1>
+    </div>
+
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-warning" role="alert">
+                {{ mensagem }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+                <div class="">                    
+                    <div class="row">
+                        <form method="POST" class="col s6">
+                            {% csrf_token %}
+                            <div class="body table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Votos</th>
+                                            <th>Quem votou</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for t in todas_opcoes %}
+                                            <tr>
+                                                <td name="nomee">{{t.nome}}</td>
+                                                <td>{{t.numero_votos}}</td>
+                                                <td>
+                                                    <a href="{% url 'quem_votou' t.id %}">Conferir</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock conteudo %}

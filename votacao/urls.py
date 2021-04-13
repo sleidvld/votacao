@@ -45,4 +45,16 @@ urlpatterns = [
         name="validacao",
     ),
 
+    path(
+        'apuracao/<int:id_votacao>',
+        apuracao,
+        name="apuracao",
+    ),
+
+    path(
+        'quem_votou/<int:id_opcao>',
+        quem_votou,
+        name="quem_votou",
+    ),
+
 ]

@@ -3,6 +3,7 @@ from adm.forms import *
 from django.contrib import messages
 from cadastro.models import *
 
+
 def validacao(request, id_votacao):
     
     if request.POST:
@@ -16,6 +17,7 @@ def validacao(request, id_votacao):
                 "Essa votação é voto unico",
                 )
                 return redirect("validacao", id_votacao)
+                
             messages.error(request,
             "CPF valido",
             )
@@ -34,6 +36,7 @@ def validacao(request, id_votacao):
 
     return render(request, "votar_validacao.html", context)
 
+
 def votar(request,id_votacao,id_pessoa):
 
     todas_opcoes = OpcaoVoto.objects.filter(votacao__id=id_votacao)
@@ -48,6 +51,7 @@ def votar(request,id_votacao,id_pessoa):
         try:
             objVotar = Votar.objects.get(pessoa=objPessoa,votacao=objVotacao,opcao=objOpcao)
 
+            return redirect("home")
         except Votar.DoesNotExist:
             objVotar = Votar()
             objVotar.pessoa = objPessoa
@@ -70,6 +74,30 @@ def votar(request,id_votacao,id_pessoa):
     }
 
     return render(request, "votar.html", context)
+
+
+def apuracao(request, id_votacao):
+
+    todas_opcoes = OpcaoVoto.objects.filter(votacao__id=id_votacao)
+
+    context = {
+        "nome_pagina": "Apuração",
+        "todas_opcoes": todas_opcoes,
+    }
+
+    return render(request, "apuracao.html", context)
+
+
+def quem_votou(request, id_opcao):
+
+    Votos = Votar.objects.filter(opcao=id_opcao)
+
+    context = {
+        "nome_pagina": "Quem Votou",
+        "votos": Votos,
+    }
+
+    return render(request, "quem_votou.html", context)
 
 
 

@@ -40,9 +40,15 @@
                                         <a href="{% url 'validacao' objVotacao.id %}">
                                             Votar
                                         </a>
-                                    {% else %}
-                                        <p>Votação encerrada</p>
+                                        <br>
+                                    {% elif objVotacao.data_inicio > hoje %}
+                                        <p>Votação Nao Começou</p>
+                                    {% elif objVotacao.data_termino < hoje %}
+                                        <p>Votação encerrada</p>    
                                     {% endif %}
+                                    <a href="{% url 'apuracao' objVotacao.id %}">
+                                        Apuração
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}
