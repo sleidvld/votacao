@@ -5,10 +5,14 @@ from cadastro.models import *
 
 
 def validacao(request, id_votacao):
-    
+    objVotacao = Votacao.objects.get(pk=id_votacao)
+    objOpcao = OpcaoVoto.objects.filter(votacao=objVotacao)
+    if not objOpcao:
+        messages.error(request,"votação nao tem opçao de voto")
+        return redirect("home")
+
     if request.POST:
         objCpf = request.POST.get('cpf',None)
-        objVotacao = Votacao.objects.get(pk=id_votacao)
         try:
             objPessoa = Pessoa.objects.get(cpf = objCpf)
             objVotar = Votar.objects.filter(votacao=objVotacao,pessoa=objPessoa)
@@ -16,20 +20,16 @@ def validacao(request, id_votacao):
                 messages.error(request,
                 "Essa votação é voto unico",
                 )
-                return redirect("validacao", id_votacao)
-                
-            messages.error(request,
-            "CPF valido",
-            )
+                return redirect("validacao", id_votacao)                    
             return redirect("votar", id_votacao, objPessoa.id)
 
         except Pessoa.DoesNotExist:
             messages.error(request,
             "CPF não econtrado",
             )
-
             return redirect("validacao",id_votacao)
-        
+
+
     context = {
         "nome_pagina": "Validação",
     }
